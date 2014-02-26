@@ -8,5 +8,6 @@ urlpatterns = patterns('',
     # url(r'^$', 'linguini.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
+    url(r'^translations/', include('translations.urls', namespace = "translations")),
     url(r'^admin/', include(admin.site.urls)),
 )
