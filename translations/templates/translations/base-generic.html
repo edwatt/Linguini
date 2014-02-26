@@ -1,0 +1,25 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static "translations/styles/bootstrap.min.css" %}" />
+    {% block extra_styles %}{% endblock extra_styles%}
+    <title>{% block title %}Linguini{% endblock title %}</title>
+</head>
+
+<body>
+    <!--<div id="sidebar">
+        {% block sidebar %}
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/blog/">Blog</a></li>
+        </ul>
+        {% endblock %}
+    </div>-->
+
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

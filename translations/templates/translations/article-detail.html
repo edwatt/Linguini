@@ -1,0 +1,28 @@
+{% extends "translations/base-generic.html" %}
+{% load staticfiles %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static "translations/styles/article-detail.css" %}" />
+{% endblock extra_styles %}
+
+{% block title %}Linguini - Article Detail{% endblock title %}
+
+{% block content %}
+
+<div class="article-detail-content">
+    <h1>Article {{article.id}}</h1>
+
+    <div>
+
+        <label>Name:</label>{{article.name}}<br />
+        <label>Source:</label>{{article.content_source}}<br />
+        <label>URL:</label>{{article.source_url}}<br />
+        <label>Difficuly:</label>{{article.difficulty}}</br></br>
+        <label>Content:</label>
+        {{ article.content }}
+         </br></br>
+        <label>Origin Language:</label>{{article.origin_language.name}} ({{article.origin_language.country}})</br>
+
+    </div>
+</div>
+{% endblock content %}

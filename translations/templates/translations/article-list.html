@@ -1,0 +1,22 @@
+{% extends "translations/base-generic.html" %}
+{% load staticfiles %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static "translations/styles/article-list.css" %}" />
+{% endblock extra_styles %}
+
+{% block title %}Linguini - Articles{% endblock title %}
+
+{% block content %}
+
+    {% if article_list %}
+        <ul>
+        {% for article in article_list %}
+            <li><a href="{% url 'translations:article' article.id %}">{{ article.name }} - {{article.content_source}}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No polls are available.</p>
+    {% endif %}
+
+{% endblock content %}
