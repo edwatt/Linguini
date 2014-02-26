@@ -41,11 +41,11 @@ class Sentence(models.Model):
     original = models.TextField()
     accepted_translation = models.TextField()
     best_attempt = models.TextField()
-    translation_is_choosen = models.BooleanField()
-    attempts_before_acceptance = models.IntegerField()
+    translation_is_choosen = models.BooleanField(default=False)
+    attempts_before_acceptance = models.IntegerField(default=0)
 
 class Linguini_Translation(models.Model):
     article = models.ForeignKey('Article')
     desired_language = models.ForeignKey('Language')
-    acceptance_threshold = models.IntegerField(default=0)
+    acceptance_threshold = models.IntegerField(default=1)
     date_completed = models.DateTimeField('date all sentences translated', null=True)

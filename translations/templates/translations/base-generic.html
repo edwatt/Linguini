@@ -4,22 +4,52 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="{% static "translations/styles/bootstrap.min.css" %}" />
+    <link rel="stylesheet" href="{% static "translations/styles/base-generic.css" %}" />
+
     {% block extra_styles %}{% endblock extra_styles%}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
+
     <title>{% block title %}Linguini{% endblock title %}</title>
 </head>
 
 <body>
-    <!--<div id="sidebar">
-        {% block sidebar %}
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/blog/">Blog</a></li>
-        </ul>
-        {% endblock %}
-    </div>-->
-
-    <div id="content">
-        {% block content %}{% endblock %}
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand vt-p" href="/translations">Linguini</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            {% block navbar %}
+            <li><a href="/translations/articles" class="vt-p">Home</a></li>
+            <li><a href="/translations/new-article" class="vt-p">New Article</a></li>
+            <!--<li><a href="/translations/articles" class="vt-p">Contact</a></li>-->
+            {% endblock navbar %}
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
     </div>
+    <div class="container">
+
+        <div id="content">
+            <div class="starter-template">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
 </body>
 </html>

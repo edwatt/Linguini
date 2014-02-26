@@ -7,6 +7,12 @@
 
 {% block title %}Linguini - Articles{% endblock title %}
 
+{% block navbar %}
+            <li class="active"><a href="/translations/articles" class="vt-p">Home</a></li>
+            <li><a href="/translations/new-article" class="vt-p">New Article</a></li>
+            <!--<li><a href="/translations/articles" class="vt-p">Contact</a></li>-->
+{% endblock navbar %}
+
 {% block content %}
 
     {% if article_list %}

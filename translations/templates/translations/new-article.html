@@ -7,6 +7,11 @@
 
 {% block title %}Linguini - New Article{% endblock title %}
 
+{% block navbar %}
+            <li><a href="/translations/articles" class="vt-p">Home</a></li>
+            <li class="active"><a href="/translations/new-article" class="vt-p">New Article</a></li>
+            <!--<li><a href="/translations/articles" class="vt-p">Contact</a></li>-->
+{% endblock navbar %}
 
 {% block content %}
 <div class="new-article-content">
@@ -63,7 +68,7 @@
         <div class="form-group">
             <label class="col-sm-2 control-label" for="article-desired-language">Desired Languages</label>
             <div class="col-sm-4">
-                <select multiple class="form-control" id="article-desired-language" name="article-desired-language" form="new-article">
+                <select multiple="multiple" class="form-control" id="article-desired-language" name="article-desired-language" form="new-article">
                     {% for language in languages %}
                         <option value="{{ language.id }}">{{ language.name }} </option>
                     {% endfor %}

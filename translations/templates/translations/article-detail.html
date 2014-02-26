@@ -22,6 +22,14 @@
         {{ article.content }}
          </br></br>
         <label>Origin Language:</label>{{article.origin_language.name}} ({{article.origin_language.country}})</br>
+        <label>Desired Language(s):</label> {% for language in desired_languages %}
+            [{{language.name}} ({{language.country}}) ]
+            {% endfor %}
+        </br>
+        <label>Sentences:</label></br>
+        {% for sentence in sentences %}
+           {{forloop.counter}}  {{sentence.original}} </br>
+        {% endfor %}
 
     </div>
 </div>
