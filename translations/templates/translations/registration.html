@@ -1,0 +1,66 @@
+{% extends "translations/base-generic.html" %}
+{% load staticfiles %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static "translations/styles/registration.css" %}" />
+{% endblock extra_styles %}
+
+{% block title %}Linguini - Registration{% endblock title %}
+
+{% block content %}
+<div class="registration-content">
+    <h1>New User Registration</h1>
+
+    <form class="form-horizontal" role="form" action="{% url 'translations:submit-new-article' %}" method="post" id="new-user">
+    {% csrf_token %}
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="first-name">First Name</label>
+            <div class="col-sm-6">
+                <input class="form-control" type="text" name="first-name" id="first-name"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="last-name">Last Name</label>
+            <div class="col-sm-6">
+                <input class="form-control" type="text" name="last-name" id="last-name"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="email-address">Email Address</label>
+            <div class="col-sm-10">
+                <input class="form-control" type="text" name="email-address" id="email-address"/>
+            </div>
+        </div>
+
+{% comment %}
+    Above - first draft
+    Below - copy & paste
+{% endcomment %}
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="user-languages">Known Languages</label>
+            <span class="help-block">Select all languages in which you have some level of proficiency.</span>
+            <div class="col-sm-4">
+                <select multiple="multiple" class="form-control" id="user-language_select" name="user-languages" form="new-user">
+                    {% for language in languages %}
+                        <option value="{{ language.id }}">{{ language.name }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="form-group proficiency-group">
+            <label class="col-sm-2 control-label" for="user-language-profiency">Profiency</label>
+
+           {% for option in profiency_choices %}
+                <div class="radio">
+                         <label>
+                           <input type="radio" name="language-profiency" id="language-profiency" value="{{option}}">
+                           {{ option }}
+                         </label>
+                       </div>
+           {% endfor %}
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+</div>
+{% endblock content %}

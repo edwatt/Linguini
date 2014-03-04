@@ -1,0 +1,17 @@
+{% extends "translations/base-generic.html" %}
+{% load staticfiles %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'translations/styles/home.css' %}" />
+{% endblock extra_styles %}
+
+{% block title %}Linguini - Home{% endblock title %}
+
+{% block navbar_home %}
+    <li  class="active"><a href="/translations/articles" class="vt-p">Home</a></li>
+{% endblock navbar_home %}
+
+{% block content %}
+    <h1>Home Page</h1>
+    <p>Welcome, {{name}}!</p>
+{% endblock content %}

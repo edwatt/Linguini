@@ -2,13 +2,13 @@
 {% load staticfiles %}
 
 {% block extra_styles %}
-    <link rel="stylesheet" href="{% static "translations/styles/new-article.css" %}" />
+    <link rel="stylesheet" href="{% static "translations/styles/translation-main.css" %}" />
 {% endblock extra_styles %}
 
-{% block title %}Linguini - New Article{% endblock title %}
+{% block title %}Linguini - Translation{% block title %}
 
 {% block navbar_new_article %}
-            <li class="active"><a href="/translations/new-article" class="vt-p">New Article</a></li>
+            <li class="active"><a href="/translations/main" class="vt-p">Translations</a></li>
 {% endblock navbar_new_article %}
 
 {% block content %}

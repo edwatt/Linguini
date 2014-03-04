@@ -7,13 +7,12 @@
 
 {% block title %}Linguini - Articles{% endblock title %}
 
-{% block navbar %}
-            <li class="active"><a href="/translations/articles" class="vt-p">Home</a></li>
-            <li><a href="/translations/new-article" class="vt-p">New Article</a></li>
-            <!--<li><a href="/translations/articles" class="vt-p">Contact</a></li>-->
-{% endblock navbar %}
+{% block navbar_articles %}
+            <li class="active"><a href="/translations/articles" class="vt-p">Articles</a></li>
+{% endblock navbar_articles %}
 
 {% block content %}
+<div>
 
     {% if article_list %}
         <ul>
@@ -24,5 +23,6 @@
     {% else %}
         <p>No polls are available.</p>
     {% endif %}
+</div>
 
 {% endblock content %}

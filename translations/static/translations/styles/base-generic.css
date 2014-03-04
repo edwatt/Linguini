@@ -3,5 +3,24 @@ body {
 }
 .starter-template {
   padding: 40px 15px;
-  text-align: center;
 }
+
+.navbar-username {
+    float: right;
+    color: #999999;
+    padding: 15px;
+    line-height: 20px;
+    position: relative;
+    display: block;
+}
+
+.logout-link {
+    float: right;
+    color: #999999;
+    padding: 15px;
+    line-height: 20px;
+    position: relative;
+    display: block;
+}
+
+
