@@ -1,0 +1,36 @@
+{% extends "translations/base-generic.html" %}
+{% load staticfiles %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static "translations/styles/user-translate.css" %}" />
+{% endblock extra_styles %}
+
+{% block title %}Linguini - Translate{% endblock title %}
+
+{% block content %}
+
+<h1>Translate {{ origin_language }} -> {{ dest_language }}</h1>
+
+<div class="translation-content">
+	<div class="instructions-container">
+		Please use only ASCII symbols in your translation. English characters only. No accents or foreign characters.
+	</div>
+	<div class="origin-text-container">
+		{% for sentence in sentences %}
+			<span>{{ sentence }}</span>
+		{% endfor %}
+	</div>
+	<div class="arrow-container">
+		---->>>>
+	</div>
+	<div class="user-translation-container">
+		<div class="form-group">
+            <label class="col-sm-2 control-label" for="translation-text">Content</label>
+            <div class="col-sm-6">
+                <textarea class="form-control" id="translation-text" name="translation-text" rows="5"></textarea>
+            </div>
+        </div>
+	</div>
+</div>
+
+{% endblock content %}

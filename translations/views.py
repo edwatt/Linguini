@@ -3,10 +3,11 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template import RequestContext, loader
 from django.core.urlresolvers import reverse
 from django.views import generic
-from translations.models import Article, Language, Linguini_Translation, Sentence
+from translations.models import Article, Language, Linguini_Translation, Sentence, Language_Proficiency
 from datetime import datetime
 from nltk import tokenize
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 
@@ -43,13 +44,15 @@ def site_logout(request):
 def home(request):
     user = request.user
     name = user.first_name + ' ' + user.last_name
-    return render(request, 'translations/home.html', {'name': name})
+    language_profs = Language_Proficiency.objects.filter(user=request.user)
+    return render(request, 'translations/home.html', {'name': name, 'language_profs':language_profs})
 
 @user_passes_test(lambda u: u.is_superuser, login_url="/translations/access-denied/")
 def new_article(request):
     languages = Language.objects.all().order_by('name')
+    difficulties = Article.DIFFICULTY_CHOICES
 
-    return render(request, 'translations/new-article.html', {'languages':languages})
+    return render(request, 'translations/new-article.html', {'languages':languages, 'difficulties': difficulties})
 
 #locals
 
@@ -101,10 +104,89 @@ def article_detail(request, pk):
     return render(request, 'translations/article-detail.html', {'article':article, 'desired_languages':desired_languages, 'sentences':sentences})
 
 def register(request):
-    languages = Language.objects.all().order_by('name')
-    profiency_choices = ['Beginner', 'Intermediate','Fluent', 'Native Speaker']
+    if request.POST:
+        try:
+            username = request.POST['username']
+            password = request.POST['password']
+            confirm_password = request.POST['confirm-password']
+            first_name = request.POST['first-name']
+            last_name = request.POST['last-name']
+            email_address = request.POST['email-address']
+            known_languages = request.POST.getlist('user-languages')
 
-    return render(request, 'translations/registration.html', {'languages':languages, 'profiency_choices': profiency_choices})
+
+        except (KeyError):
+            return render(request, 'translations/register.html', {
+                'error_message' : "Incomplete form submitted.",
+                })
+        else:
+
+            required_fields = [username, password, first_name, last_name, email_address]
+
+            if not all(field.strip() != '' for field in required_fields):
+                error_message = "Required field(s) missing."
+            else:
+                if password != confirm_password:
+                    error_message = "Passwords don't match."
+                else:
+                    if User.objects.filter(username=username).exists():
+                        error_message = "Username is already in use"
+                    else:
+                        user = User.objects.create_user(username, email_address, password)
+                        user.first_name = first_name
+                        user.last_name = last_name
+                        user.save()
+
+                        for language_id in known_languages:
+                            language = Language.objects.get(id=language_id)
+                            pr = Language_Proficiency(user=user, language=language)
+                            pr.save()
+
+                        user = authenticate(username=username, password=password)
+
+                        if user is not None and user.is_active:
+                            #User is valid, active and authenticated
+                            login(request, user)
+
+                            return HttpResponseRedirect(reverse('translations:language-prof'))
+
+            languages = Language.objects.all().order_by('name')
+            return render(request, 'translations/registration.html', {'error_message' : error_message, 'languages':languages})
+
+    else:
+        languages = Language.objects.all().order_by('name')
+
+        return render(request, 'translations/registration.html', {'languages':languages})
+
+@login_required
+def language_prof(request):
+    if request.POST:
+        try:
+            language_profs = []
+            for language_prof_key in [key for key in request.POST.keys() if key.startswith('language-proficiency-id-')]:
+                language_profs.append([language_prof_key.split('-')[3],request.POST[language_prof_key]])
+
+            print language_profs
+
+        except (KeyError):
+            return render(request, 'translations/language-prof.html', {
+                'error_message' : "Incomplete form submitted.",
+                })
+        else:
+            for language_prof in language_profs:
+                lang_prof_obj = Language_Proficiency.objects.get(language__id=language_prof[0], user=request.user)
+                print lang_prof_obj.language.name
+                lang_prof_obj.proficiency = language_prof[1]
+                lang_prof_obj.save()
+
+            return HttpResponseRedirect(reverse('translations:home'))
+
+
+    else:
+        languages = Language.objects.filter(language_proficiency__user=request.user)
+        proficiency_choices = Language_Proficiency.PROFICIENCY_CHOICES
+        return render(request, 'translations/language-prof.html', {'proficiency_choices': proficiency_choices,'languages':languages})
+
 
 class ArticleView(generic.DetailView):
     model = Article

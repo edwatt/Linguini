@@ -4,9 +4,9 @@
 <html lang="en">
 <head>
 
-    {% block extra_styles %}{% endblock extra_styles%}
     <link rel="stylesheet" href="{% static "translations/styles/base-generic.css" %}" />
     <link rel="stylesheet" href="{% static "translations/styles/bootstrap.min.css" %}" />
+       {% block extra_styles %}{% endblock extra_styles%}
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -28,13 +28,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand vt-p" href="/translations/home">Linguini</a>
+          <a class="navbar-brand vt-p" href="/translations/home/">Linguini</a>
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             {% block navbar %}
             {% block navbar_home %}
-                <li><a href="/translations/home" class="vt-p">Home</a></li>
+                <li><a href="/translations/home/" class="vt-p">Home</a></li>
             {% endblock navbar_home %}
 
             {% if user.is_superuser %}

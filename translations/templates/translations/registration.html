@@ -11,56 +11,75 @@
 <div class="registration-content">
     <h1>New User Registration</h1>
 
-    <form class="form-horizontal" role="form" action="{% url 'translations:submit-new-article' %}" method="post" id="new-user">
+    <hr>
+
+    <form class="form-horizontal" role="form" action="{% url 'translations:register' %}" method="post" id="new-user">
     {% csrf_token %}
+
+        <h4>Account Information</h4>
+         <div class="form-group">
+            <label class="col-sm-2 control-label" for="username">Username</label>
+            <div class="col-sm-4">
+                <input class="form-control" type="text" name="username" id="username"/>
+            </div>
+        </div>
+         <div class="form-group">
+            <label class="col-sm-2 control-label" for="password">Password</label>
+            <div class="col-sm-4">
+                <input class="form-control" type="password" name="password" id="password"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="confirm-password">Confirm Password</label>
+            <div class="col-sm-4">
+                <input class="form-control" type="password" name="confirm-password" id="confirm-password"/>
+            </div>
+        </div>
+
+        <hr>
+
+        <h4>Personal Information</h4>
         <div class="form-group">
             <label class="col-sm-2 control-label" for="first-name">First Name</label>
-            <div class="col-sm-6">
+            <div class="col-sm-4">
                 <input class="form-control" type="text" name="first-name" id="first-name"/>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label" for="last-name">Last Name</label>
-            <div class="col-sm-6">
+            <div class="col-sm-4">
                 <input class="form-control" type="text" name="last-name" id="last-name"/>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label" for="email-address">Email Address</label>
-            <div class="col-sm-10">
+            <div class="col-sm-6">
                 <input class="form-control" type="text" name="email-address" id="email-address"/>
             </div>
         </div>
 
-{% comment %}
-    Above - first draft
-    Below - copy & paste
-{% endcomment %}
+        <hr>
 
+        <h4>Linguini Information</h4>
         <div class="form-group">
             <label class="col-sm-2 control-label" for="user-languages">Known Languages</label>
-            <span class="help-block">Select all languages in which you have some level of proficiency.</span>
-            <div class="col-sm-4">
-                <select multiple="multiple" class="form-control" id="user-language_select" name="user-languages" form="new-user">
+            <span class="help-block">Select all languages in which you have some level of proficiency.</br> Hold Crtl (Cmd for Mac) to select multiple languages.</span>
+            <label class="col-sm-2 control-label"></label>
+            <div class="col-sm-6 language-select">
+                <select size="6" multiple="multiple" class="form-control" id="user-languages" name="user-languages" form="new-user">
                     {% for language in languages %}
                         <option value="{{ language.id }}">{{ language.name }} </option>
                     {% endfor %}
                 </select>
             </div>
         </div>
-        <div class="form-group proficiency-group">
-            <label class="col-sm-2 control-label" for="user-language-profiency">Profiency</label>
-
-           {% for option in profiency_choices %}
-                <div class="radio">
-                         <label>
-                           <input type="radio" name="language-profiency" id="language-profiency" value="{{option}}">
-                           {{ option }}
-                         </label>
-                       </div>
-           {% endfor %}
+        <hr>
+        <div class="form-group">
+            <label class="col-sm-8 control-label" style="color:red;">{{ error_message }}</label>
+            <div class="col-sm-1">
+                <button type="submit" class="btn btn-default user-submit-btn">Next</button>
+            </div>
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
     </form>
 </div>
 {% endblock content %}

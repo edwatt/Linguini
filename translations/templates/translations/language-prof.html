@@ -1,0 +1,50 @@
+{% extends "translations/base-generic.html" %}
+{% load staticfiles %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static "translations/styles/language-prof.css" %}" />
+{% endblock extra_styles %}
+
+{% block title %}Linguini - Language Proficiency{% endblock title %}
+
+{% block content %}
+<div class="language-prof-content">
+    <h1>Language Proficiency</h1>
+
+    <hr>
+
+    <form class="form-horizontal" role="form" action="{% url 'translations:language-prof' %}" method="post" id="language-prof-form">
+      {% csrf_token %}
+
+      {% for language in languages %}
+
+      <h3>{{language.name}}</h3>
+      <div class="form-group proficiency-group">
+          <label class="col-sm-2 control-label"></label>
+          <div style="padding-left:100px;">
+
+           {% for option in proficiency_choices %}
+                <div class="radio">
+                   <label>
+                     <input type="radio" name="language-proficiency-id-{{language.id}}" id="language-proficiency-id-{{language.id}}" value="{{option.0}}">
+                     {{ option.1 }}
+                   </label>
+                 </div>
+            {% endfor %}
+          </div>
+      </div></br></br>
+      {% endfor %}
+
+      <div class="form-group">
+            <label class="col-sm-3 control-label" style="color:red;">{{ error_message }}</label>
+            <div class="col-sm-1">
+                <button type="submit" class="btn btn-default user-submit-btn">Submit</button>
+            </div>
+        </div>
+    </form>
+
+
+
+
+
+{% endblock content %}

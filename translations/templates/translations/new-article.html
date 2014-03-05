@@ -39,11 +39,9 @@
             <label class="col-sm-2 control-label" for="article-difficulty">Difficuly</label>
             <div class="col-sm-4">
                 <select class="form-control" id="article-difficulty" name="article-difficulty" form="new-article">
-                    <option value="1">Very Easy</option>
-                    <option value="2">Easy</option>
-                    <option value="3">Moderate</option>
-                    <option value="4">Difficult</option>
-                    <option value="5">Very Difficult</option>
+                    {% for difficulty in difficulties %}
+                        <option value="{{difficulty.0}}">{{difficulty.1}}</option>
+                    {% endfor %}
                 </select>
             </div>
         </div>
@@ -65,8 +63,8 @@
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label" for="article-desired-language">Desired Languages</label>
-            <div class="col-sm-4">
-                <select multiple="multiple" class="form-control" id="article-desired-language" name="article-desired-language" form="new-article">
+            <div class="col-sm-6">
+                <select size="6" multiple="multiple" class="form-control" id="article-desired-language" name="article-desired-language" form="new-article">
                     {% for language in languages %}
                         <option value="{{ language.id }}">{{ language.name }} </option>
                     {% endfor %}

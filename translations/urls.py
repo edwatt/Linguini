@@ -13,4 +13,6 @@ urlpatterns = patterns('',
     url(r'^article/(?P<pk>\d+)/$', views.article_detail, name='article'),
     url(r'^access-denied/$', DirectTemplateView.as_view(template_name='translations/access-denied.html'), name="access-denied"),
     url(r'^register/$', views.register, name="register"),
+    url(r'^language-prof/$', views.language_prof, name="language-prof"),
+    url(r'^user-translate/(?P<pk>\d+)/$', views.user_translate, name="user-translate"),
 )

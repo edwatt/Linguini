@@ -8,10 +8,19 @@
 {% block title %}Linguini - Home{% endblock title %}
 
 {% block navbar_home %}
-    <li  class="active"><a href="/translations/articles" class="vt-p">Home</a></li>
+    <li  class="active"><a href="/translations/home/" class="vt-p">Home</a></li>
 {% endblock navbar_home %}
 
 {% block content %}
     <h1>Home Page</h1>
     <p>Welcome, {{name}}!</p>
+	</br>
+
+	<h3>Languages</h3>
+    <div style="padding-left:30px;">
+    	{% for prof in language_profs %}
+    		<span>{{prof.language.name}} - {{prof.get_proficiency_display}}</span></br>
+    	{% endfor %}
+
+    </div>
 {% endblock content %}
