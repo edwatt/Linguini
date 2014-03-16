@@ -188,6 +188,7 @@ def language_prof(request):
         proficiency_choices = Language_Proficiency.PROFICIENCY_CHOICES
         return render(request, 'translations/language-prof.html', {'proficiency_choices': proficiency_choices,'languages':languages})
 
+@login_required
 def user_translate(request, origin_pk, dest_pk):
     if request.POST:
         try:
