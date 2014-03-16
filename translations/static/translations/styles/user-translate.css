@@ -1,0 +1,45 @@
+.user-translate-text-holder{
+	float:left;
+	width:100%;
+}
+
+.arrow-container{
+	float:left;
+	height:200px;
+	text-align: center;
+	padding: 91px 0;
+	width:10%;
+}
+
+.origin-text-container{
+	float:left;
+	width:45%;
+}
+
+.origin-sentence-container{
+	margin-top:40px;
+}
+
+.user-translation-container{
+	float:left;
+	width:45%;
+}
+
+.instructions-container{
+	margin-bottom: 30px;
+}
+
+.translation-content{
+	float:left;
+}
+
+.origin-to-dest{
+	float:left;
+	position:relative;
+}
+
+.submit-container{
+	float:left;
+	margin-top: 20px;
+	width:100%;
+}

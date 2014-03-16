@@ -23,4 +23,19 @@
     	{% endfor %}
 
     </div>
+
+    <h3>Translate</h3>
+    <div style="padding-left:30px;">
+        {% for origin_prof in language_profs %}
+            <h4>{{origin_prof.language.name}}</h4>
+            <div class="language_trans_listing">
+                {% for dest_prof in language_profs %}
+                    {% if origin_prof != dest_prof %}
+                        <span><a href="{% url 'translations:user-translate' origin_prof.language.id dest_prof.language.id %}">{{origin_prof.language.name}} --> {{dest_prof.language.name}}</a></span></br>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+    </div>
 {% endblock content %}

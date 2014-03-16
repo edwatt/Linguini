@@ -9,28 +9,47 @@
 
 {% block content %}
 
-<h1>Translate {{ origin_language }} -> {{ dest_language }}</h1>
+<h1>Translate {{ origin_language_prof.language.name }} -> {{ dest_language_prof.language.name }}</h1>
 
 <div class="translation-content">
 	<div class="instructions-container">
 		Please use only ASCII symbols in your translation. English characters only. No accents or foreign characters.
 	</div>
-	<div class="origin-text-container">
-		{% for sentence in sentences %}
-			<span>{{ sentence }}</span>
-		{% endfor %}
-	</div>
-	<div class="arrow-container">
-		---->>>>
-	</div>
-	<div class="user-translation-container">
-		<div class="form-group">
-            <label class="col-sm-2 control-label" for="translation-text">Content</label>
-            <div class="col-sm-6">
-                <textarea class="form-control" id="translation-text" name="translation-text" rows="5"></textarea>
-            </div>
-        </div>
-	</div>
+
+	{% if error_message %}
+
+		<h5 style="color:red;">{{ error_message }}</h5>
+
+	{% else %}
+		<div class="origin-to-dest">
+			<form role="form" action="#" method="post" id="user-translate-form">
+		     {% csrf_token %}
+				<div class="origin-text-container">
+					<h4>Original Content</h4>
+					<div class="origin-sentence-container">
+						{% for sentence in sentences %}
+							<input type="hidden" name="sentence_id" value="{{ sentence.id }}"><span>{{ sentence.original }}</span>
+						{% endfor %}
+					</div>
+				</div>
+				<div class="arrow-container">
+					<span>---->>>></span>
+				</div>
+				<div class="user-translation-container">
+				        <h4>User Translation</h4>
+				        <div class="user-translate-text-holder">
+				            <textarea class="form-control" id="translation-text" name="translation-text" rows="5"></textarea>
+				        </div>
+				        <div class="submit-container">
+				            <label class="col-sm-9 control-label" style="color:red;"></label>
+				            <div class="col-sm-1 submit-button">
+				                <button type="submit" class="btn btn-default user-submit-btn">Submit</button>
+			            	</div>
+		        		</div>
+				</div>
+			</form>
+		</div>
+	{% endif %}
 </div>
 
 {% endblock content %}
