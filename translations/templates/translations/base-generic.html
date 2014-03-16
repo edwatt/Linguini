@@ -37,7 +37,7 @@
                 <li><a href="/translations/home/" class="vt-p">Home</a></li>
             {% endblock navbar_home %}
 
-            {% if user.is_superuser %}
+            {% if user.is_staff %}
                 {% block navbar_articles %}
                             <li><a href="/translations/articles" class="vt-p">Articles</a></li>
                 {% endblock navbar_articles %}
