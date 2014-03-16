@@ -48,7 +48,7 @@ def home(request):
     language_profs = Language_Proficiency.objects.filter(user=request.user)
     return render(request, 'translations/home.html', {'name': name, 'language_profs':language_profs})
 
-@user_passes_test(lambda u: u.is_superuser, login_url="/translations/access-denied/")
+@user_passes_test(lambda u: u.is_staff, login_url="/translations/access-denied/")
 def new_article(request):
     languages = Language.objects.all().order_by('name')
     difficulties = Article.DIFFICULTY_CHOICES
@@ -57,7 +57,7 @@ def new_article(request):
 
 #locals
 
-@user_passes_test(lambda u: u.is_superuser, login_url="/translations/access-denied/")
+@user_passes_test(lambda u: u.is_staff, login_url="/translations/access-denied/")
 def submit_new_article(request):
     try:
         article_name = request.POST['article-name']
@@ -87,7 +87,7 @@ def submit_new_article(request):
 
         return HttpResponseRedirect(reverse('translations:article_list'))
 
-@user_passes_test(lambda u: u.is_superuser, login_url="/translations/access-denied/")
+@user_passes_test(lambda u: u.is_staff, login_url="/translations/access-denied/")
 def article_detail(request, pk):
     try:
         article = Article.objects.get(pk=pk)
