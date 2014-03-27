@@ -255,7 +255,7 @@ def user_translate(request, origin_pk, dest_pk):
             if 'trans_count' in request.session:
                 if str(origin_pk) in request.session['trans_count']:
                     if str(dest_pk) in request.session['trans_count'][str(origin_pk)]:
-                        if request.session['trans_count'][str(origin_pk)][str(dest_pk)] >= 3:
+                        if request.session['trans_count'][str(origin_pk)][str(dest_pk)] >= 8:
                             return render(request, 'translations/user-translate.html', 
                                 {'error_message':"You have reached your session limit for this language. In order to translate more sentences, please logout and log back in", 'origin_language_prof':origin_language_prof,
                                 'dest_language_prof':dest_language_prof})
