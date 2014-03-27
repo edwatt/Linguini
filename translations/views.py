@@ -46,6 +46,8 @@ def home(request):
     user = request.user
     name = user.first_name + ' ' + user.last_name
     language_profs = Language_Proficiency.objects.filter(user=request.user)
+
+
     return render(request, 'translations/home.html', {'name': name, 'language_profs':language_profs})
 
 @user_passes_test(lambda u: u.is_staff, login_url="/translations/access-denied/")
@@ -224,16 +226,41 @@ def user_translate(request, origin_pk, dest_pk):
 
                     translation_chunk.save()
 
+                    if 'trans_count' not in request.session:
+                        request.session['trans_count'] = {}
+
+                    if str(origin_pk) not in request.session['trans_count']:
+                        request.session['trans_count'][str(origin_pk)] = {}
+
+                    if str(dest_pk) not in request.session['trans_count'][str(origin_pk)]:
+                        request.session['trans_count'][str(origin_pk)][str(dest_pk)] = 0
+
+                    request.session['trans_count'][str(origin_pk)][str(dest_pk)] = request.session['trans_count'][str(origin_pk)][str(dest_pk)] + 1
+                    request.session.modified = True
+
+                    #print request.session['trans_count'][str(origin_pk)][str(dest_pk)]
+
                     return HttpResponseRedirect(reverse('translations:user-translate', args=(origin_pk,dest_pk,)))
 
 
     else:
+
         try:
             origin_language_prof = Language_Proficiency.objects.get(language__id=origin_pk, user=request.user)
             dest_language_prof = Language_Proficiency.objects.get(language__id=dest_pk, user=request.user)
         except(Language_Proficiency.DoesNotExist):
             error_message = "Chosen language does not exist, or is not associated with the current user"
         else:
+
+            if 'trans_count' in request.session:
+                if str(origin_pk) in request.session['trans_count']:
+                    if str(dest_pk) in request.session['trans_count'][str(origin_pk)]:
+                        if request.session['trans_count'][str(origin_pk)][str(dest_pk)] >= 3:
+                            return render(request, 'translations/user-translate.html', 
+                                {'error_message':"You have reached your session limit for this language. In order to translate more sentences, please logout and log back in", 'origin_language_prof':origin_language_prof,
+                                'dest_language_prof':dest_language_prof})
+
+
             final_chunk = Chunk_Holder(0)
 
             # Determine the proficiency of the user and which difficulties will be available for them as such
@@ -247,10 +274,10 @@ def user_translate(request, origin_pk, dest_pk):
             else:
                 article_diffs = diff_choices[:proficiency + 1]
 
-            print article_diffs
-            print proficiency
+            #print article_diffs
+            #print proficiency
 
-            num_sent = random.randint(1,4) # random chunk size
+            num_sent = random.randint(1,5) # random chunk size
 
             # filter sentences by origin language, desired language, and difficulty.
             # exclude sentences that have already been translated by user
@@ -288,7 +315,7 @@ def user_translate(request, origin_pk, dest_pk):
 
                 chunk_found = False
                 eligible_chunks = []
-                print num_sent
+                #print num_sent
 
                 for x in range(num_sent,0,-1):
                     for trans_chunk in trans_chunks:
@@ -304,7 +331,7 @@ def user_translate(request, origin_pk, dest_pk):
 
 
                 final_chunk = random.choice(eligible_chunks) #randomly choose from the eligible chunks
-                print eligible_chunks
+                #print eligible_chunks
 
 
 
@@ -316,7 +343,7 @@ def user_translate(request, origin_pk, dest_pk):
                 start_index = random.randint(0, final_chunk.count - num_sent_adjusted)
                 end_index = start_index + num_sent_adjusted
 
-                print "Start: %i; End: %i" % (start_index, end_index)
+                #print "Start: %i; End: %i" % (start_index, end_index)
 
                 if end_index >= final_chunk.count:
                     sentences = final_chunk.sentences[start_index:]
@@ -407,3 +434,11 @@ class DirectTemplateView(generic.TemplateView):
                 else:
                     context[key] = value
         return context
+
+
+def delete_article(article_id):
+
+    # get article by ID
+    # figure out what gets deleted based on db relationships
+
+    pass

@@ -13,6 +13,10 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
+
+PRODUCTION = True
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
@@ -20,7 +24,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = 'b%hk+j2m4*js97&bcgecu59ow^wuhymbrwll5#5nt+x!36-k0#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if PRODUCTION:
+    DEBUG = False
+else:
+    DEBUG = True
 
 TEMPLATE_DEBUG = True
 
@@ -82,16 +89,20 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# Parse database configuration from $DATABASE_URL
-import dj_database_url
-DATABASES['default'] =  dj_database_url.config()
+if PRODUCTION:
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'linguini',
-#     }
-# }
+    # Parse database configuration from $DATABASE_URL
+    import dj_database_url
+    DATABASES['default'] =  dj_database_url.config()
+
+else:
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'linguini',
+        }
+    }
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -112,6 +123,7 @@ STATIC_URL = '/static/'
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 
 LOGIN_URL = "/login/"
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 STATICFILES_FINDERS = ("django.contrib.staticfiles.finders.FileSystemFinder",
  "django.contrib.staticfiles.finders.AppDirectoriesFinder")
