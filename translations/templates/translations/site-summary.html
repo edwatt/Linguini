@@ -37,7 +37,7 @@
                         <li>
                             {% if language.origin %}
                                 <div>
-                                    {{ language.origin.name }}  -->  {{ language.dest.name }}
+                                    {{ language.origin.name }} ({{ language.origin.proficiency.get_proficiency_display }})  -->  {{ language.dest.name }} ({{ language.dest.proficiency.get_proficiency_display }})
                                 </div>
                             {% endif %}
                             <div>

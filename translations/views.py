@@ -129,6 +129,9 @@ def site_summary(request):
                 language.chunks.append(chunk)
             else:
                 if language.origin != None:
+                    language.origin.proficiency = Language_Proficiency.objects.get(user=user,language=language.origin)
+                    language.dest.proficiency = Language_Proficiency.objects.get(user=user,language=language.dest)
+                    print language.origin.proficiency.proficiency
                     user.languages.append(language)
 
                 language = type('', (), {})()
@@ -136,9 +139,12 @@ def site_summary(request):
                 language.dest = chunk_dest
                 language.chunks = [chunk]
 
-        user.languages.append(language)
+        if language.origin != None:
 
-    print users[8].languages[0].chunks
+            language.origin.proficiency = Language_Proficiency.objects.get(user=user,language=language.origin)
+            language.dest.proficiency = Language_Proficiency.objects.get(user=user,language=language.dest)
+            print language.origin.proficiency.proficiency
+            user.languages.append(language)
     
     return render(request, 'translations/site-summary.html', {'users':users})
 
