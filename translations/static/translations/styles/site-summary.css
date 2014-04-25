@@ -1,0 +1,49 @@
+.user-list-item{
+	padding: 10px 0;
+}
+
+.user-content{
+	display:none;
+}
+
+.expand-text{
+  color: #428bca;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 0 10px;
+}
+.expand-text:hover,
+.expand-text:focus {
+  color: #2a6496;
+}
+.expand-text:focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+.user-list, .language-list, .chunk-list{
+	list-style-type: none;
+}
+
+.original-chunk, .translated-chunk{
+	float:left;
+	width:430px;
+}
+
+.original-chunk{
+	padding-right: 20px;
+}
+
+.translation-holder{
+	padding: 10px;
+}
+
+.user-info{
+	padding: 10px 0;
+}
+
+.top-options{
+	float:right;
+	margin-right: 200px;
+}

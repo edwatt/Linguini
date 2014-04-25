@@ -106,6 +106,42 @@ def article_detail(request, pk):
 
     return render(request, 'translations/article-detail.html', {'article':article, 'desired_languages':desired_languages, 'sentences':sentences})
 
+@user_passes_test(lambda u: u.is_staff, login_url="/translations/access-denied/")
+def site_summary(request):
+
+    users = User.objects.all().order_by('last_name');
+
+    for user in users:
+        all_chunks = Translation_Chunk.objects.filter(user=user).distinct().order_by('sentences__linguini_trans__article__origin_language', 'sentences__linguini_trans__desired_language')
+
+        user.languages = []
+
+        language = type('', (), {})() 
+        language.origin = None
+        language.dest = None
+        language.chunks = []
+
+        for chunk in all_chunks:
+            chunk_origin = chunk.sentences.all()[0].linguini_trans.article.origin_language
+            chunk_dest = chunk.sentences.all()[0].linguini_trans.desired_language
+
+            if chunk_origin == language.origin and chunk_dest == language.dest:
+                language.chunks.append(chunk)
+            else:
+                if language.origin != None:
+                    user.languages.append(language)
+
+                language = type('', (), {})()
+                language.origin = chunk_origin
+                language.dest = chunk_dest
+                language.chunks = [chunk]
+
+        user.languages.append(language)
+
+    print users[8].languages[0].chunks
+    
+    return render(request, 'translations/site-summary.html', {'users':users})
+
 def register(request):
     if request.POST:
         try:

@@ -1,0 +1,100 @@
+{% extends "translations/base-generic.html" %}
+{% load staticfiles %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static "translations/styles/site-summary.css" %}" />
+{% endblock extra_styles %}
+
+{% block extra_scripts %}
+    <script src="{% static "translations/scripts/site-summary.js" %}"></script>
+{% endblock extra_scripts %}
+
+{% block title %}Linguini - Site Summary{% endblock title %}
+
+{% block navbar_site_summary %}
+            <li class="active"><a href="/translations/site-summary" class="vt-p">Site Summary</a></li>
+{% endblock navbar_site_summary %}
+
+{% block content %}
+<div>
+
+    <h1>Site Summary</h1>
+
+    <div class="top-options">
+        <span class="expand-text" onclick="expand_all()">Expand All</span> <span class="expand-text" onclick="collapse_all()">Collapse All</span>
+    </div>
+
+    {% if users %}
+        <ul class="user-list">
+        {% for user in users %}
+            <li class="user-list-item">
+                <div class="user-info">
+                    <b>{{ user.last_name }}, {{ user.first_name }}</b> - {{ user.email }}  <span user-id-target="{{ user.id }}" class="expand-text" onclick="expand_user_content(this)">Expand</span>
+                </div>
+                <div class="user-content" id="user-content-{{ user.id }}" user-id="{{ user.id }}">
+                    <ul class="language-list">
+                        {% for language in user.languages %}
+                        <li>
+                            {% if language.origin %}
+                                <div>
+                                    {{ language.origin.name }}  -->  {{ language.dest.name }}
+                                </div>
+                            {% endif %}
+                            <div>
+                                <ul class="chunk-list">
+                                    {% if language.chunks %}
+                                        <li>
+                                            <div class="translation-holder">
+                                                <div class="original-chunk">
+                                                    <b>Original Text</b>
+                                                </div>
+                                                <div class="translated-chunk">
+                                                    <b>Translated Text</b>
+                                                </div>
+                                                <div style="clear:both"></div>
+                                            </div>
+
+                                        </li>
+                                    {% endif %}
+
+                                    {% for chunk in language.chunks %}
+                                     <li>
+                                        <div class="translation-holder">
+                                            <div class="original-chunk">
+                                                {% for sentence in chunk.sentences.all %}
+
+                                                    {{ sentence.original }} 
+                                                        
+                                                {% endfor %}
+                                            </div>
+                                            <div class="translated-chunk">
+                                                {{chunk.translation}}
+                                            </div>
+                                            <div style="clear:both"></div>
+                                        </div>
+
+                                    </li>
+                                    {% empty %}
+
+                                        Sorry, there are no languages for this user
+                                        
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </li>
+                        {% empty %}
+                        <div>
+                            Sorry, there are no languages for this user
+                        </div>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No users are available.</p>
+    {% endif %}
+</div>
+
+{% endblock content %}

@@ -44,6 +44,9 @@
                 {% block navbar_new_article %}
                     <li><a href="/translations/new-article" class="vt-p">New Article</a></li>
                 {% endblock navbar_new_article %}
+                {% block navbar_site_summary %}
+                    <li><a href="/translations/site-summary" class="vt-p">Site Summary</a></li>
+                {% endblock navbar_site_summary %}
             {% endif %}
 
             {% endblock navbar %}
@@ -73,5 +76,6 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="{% static "translations/scripts/bootstrap.min.js" %}"></script>
+    {% block extra_scripts %}{% endblock extra_scripts%}
 </body>
 </html>
